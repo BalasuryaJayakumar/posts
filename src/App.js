@@ -1,24 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import Layout from './components/Layout'
+import { Navigate, Route, Routes } from "react-router-dom";
+import PostsList from './features/posts/PostsList';
+import AddNewPost from './features/posts/AddNewPost';
+import SinglePage from './features/posts/SinglePage';
+import EditPostForm from './features/posts/EditPostForm';
+import AuthorList from './features/users/AuthorList';
+import AuthorPage from './features/users/AuthorPage';
+
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route path="/"  element={<Layout />} >
+        <Route index element={<PostsList />} />
+        <Route path='post'>
+          <Route index element={<AddNewPost />} />
+          <Route path=':postId' element={<SinglePage />} />
+          <Route path='edit/:postId' element={<EditPostForm />} />
+        </Route>
+        <Route path='user'>
+          <Route index element={<AuthorList /> } />
+          <Route path=':userId' element={<AuthorPage />} />
+        </Route>
+        <Route path='*' element={<Navigate to='/' replace />} />
+      </Route>
+    </Routes>
   );
 }
 
